@@ -33,36 +33,87 @@ java -version
 openjdk version "21..."
 ```
 
-## 2. Скачать сборку
+## 2. Скачать и распаковать сборку
 
-Скачать архив:
+Скачай файл:
 
 `Ascension-of-Ages-0.7.3.1.7z`
 
-из Releases этого репозитория.
+из раздела **Releases** репозитория.
 
-Создать папку:
-
-```text
-C:\Minecraft\Ascension-of-Ages
-```
-
-Распаковать **содержимое архива** туда.
-
-После распаковки должно быть примерно так:
+По умолчанию браузер сохранит его в папку:
 
 ```text
-C:\Minecraft\Ascension-of-Ages\
-├── assets\
-├── config\
-├── configureddefaults\
-├── data\
-├── defaultconfigs\
-├── kubejs\
-├── mods\
-├── resourcepacks\
-└── shaderpacks\
+C:\Users\<твой пользователь>\Downloads
 ```
+
+### Установить 7-Zip
+
+Открой **PowerShell** и выполни:
+
+```powershell
+winget install 7zip.7zip
+```
+
+Если 7-Zip уже установлен, этот шаг можно пропустить.
+
+### Создать отдельную папку для сборки
+
+```powershell
+New-Item -ItemType Directory `
+  -Path "C:\Minecraft\Ascension-of-Ages" `
+  -Force
+```
+
+### Распаковать сборку
+
+```powershell
+& "C:\Program Files\7-Zip\7z.exe" x `
+  "$env:USERPROFILE\Downloads\Ascension-of-Ages-0.7.3.1.7z" `
+  -o"C:\Minecraft\Ascension-of-Ages" `
+  -y
+```
+
+Дождись сообщения:
+
+```text
+Everything is Ok
+```
+
+### Проверить результат
+
+```powershell
+Get-ChildItem "C:\Minecraft\Ascension-of-Ages"
+```
+
+Должны присутствовать папки примерно такого вида:
+
+```text
+assets
+config
+configureddefaults
+data
+defaultconfigs
+kubejs
+mods
+resourcepacks
+shaderpacks
+```
+
+Проверить количество модов:
+
+```powershell
+(Get-ChildItem "C:\Minecraft\Ascension-of-Ages\mods\*.jar" -File).Count
+```
+
+Правильный результат:
+
+```text
+575
+```
+
+Если получилось `575`, сборка распакована правильно.
+
 
 ## 3. Скачать NeoForge 21.1.247
 
