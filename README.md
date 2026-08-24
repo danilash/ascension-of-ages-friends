@@ -1,55 +1,78 @@
-# Ascension of Ages 0.7.3.1
+# Ascension of Ages 0.7.3.1 — Friends Pack
 
 Готовая клиентская сборка для совместной игры.
 
-## Что используется
+## Версии
 
 * Minecraft: **1.21.1**
+* Ascension of Ages: **0.7.3.1**
 * NeoForge: **21.1.247**
 * Java: **21**
-* Ascension of Ages: **0.7.3.1**
 * Лаунчер: **TLauncher**
 * Сеть: **Radmin VPN**
 
-Важно: не обновлять отдельные моды и не менять версию NeoForge.
+> **Важно:** не обновлять отдельные моды, NeoForge или другие компоненты сборки.
+> В TLauncher галочка **«Обновить клиент» должна быть выключена**.
 
-## 1. Установить Java 21
+---
 
-Открыть PowerShell и выполнить:
+# 1. Установить Java 21
+
+Открой PowerShell и выполни:
 
 ```powershell
 winget install EclipseAdoptium.Temurin.21.JDK
 ```
 
-После установки закрыть PowerShell, открыть заново и проверить:
+После установки **закрой PowerShell и открой заново**.
+
+Проверь:
 
 ```powershell
 java -version
 ```
 
-Должно быть:
+Должно быть что-то вроде:
 
 ```text
 openjdk version "21..."
 ```
 
-## 2. Скачать и распаковать сборку
+---
 
-Скачай файл:
+# 2. Скачать и распаковать сборку
 
-`Ascension-of-Ages-0.7.3.1.7z`
+Открой раздел **Releases** этого репозитория и скачай:
 
-из раздела **Releases** репозитория.
+```text
+Ascension-of-Ages-0.7.3.1.7z
+```
 
-По умолчанию браузер сохранит его в папку:
+По умолчанию файл должен оказаться здесь:
 
 ```text
 C:\Users\<твой пользователь>\Downloads
 ```
 
-### Установить 7-Zip
+## Проверить скачанный архив
 
-Открой **PowerShell** и выполни:
+В PowerShell:
+
+```powershell
+Get-FileHash `
+  "$env:USERPROFILE\Downloads\Ascension-of-Ages-0.7.3.1.7z" `
+  -Algorithm SHA256
+```
+
+Правильный SHA256:
+
+```text
+B5630C70097E4C0D2DDD0BF86B482E1E4815E2B45D6720844FB0AE75AA41355A
+```
+
+Если хэш совпадает — архив скачан правильно.
+
+## Установить 7-Zip
 
 ```powershell
 winget install 7zip.7zip
@@ -57,15 +80,16 @@ winget install 7zip.7zip
 
 Если 7-Zip уже установлен, этот шаг можно пропустить.
 
-### Создать отдельную папку для сборки
+## Создать папку игры
 
 ```powershell
-New-Item -ItemType Directory `
+New-Item `
+  -ItemType Directory `
   -Path "C:\Minecraft\Ascension-of-Ages" `
   -Force
 ```
 
-### Распаковать сборку
+## Распаковать сборку
 
 ```powershell
 & "C:\Program Files\7-Zip\7z.exe" x `
@@ -74,19 +98,19 @@ New-Item -ItemType Directory `
   -y
 ```
 
-Дождись сообщения:
+Дождись:
 
 ```text
 Everything is Ok
 ```
 
-### Проверить результат
+## Проверить распаковку
 
 ```powershell
 Get-ChildItem "C:\Minecraft\Ascension-of-Ages"
 ```
 
-Должны присутствовать папки примерно такого вида:
+Должны быть папки:
 
 ```text
 assets
@@ -100,7 +124,7 @@ resourcepacks
 shaderpacks
 ```
 
-Проверить количество модов:
+Проверяем количество модов:
 
 ```powershell
 (Get-ChildItem "C:\Minecraft\Ascension-of-Ages\mods\*.jar" -File).Count
@@ -112,12 +136,11 @@ shaderpacks
 575
 ```
 
-Если получилось `575`, сборка распакована правильно.
+---
 
+# 3. Установить NeoForge 21.1.247
 
-## 3. Скачать NeoForge 21.1.247
-
-В PowerShell:
+Скачать официальный установщик:
 
 ```powershell
 $installer = "$env:TEMP\neoforge-21.1.247-installer.jar"
@@ -127,21 +150,23 @@ Invoke-WebRequest `
   -OutFile $installer
 ```
 
-## 4. Подготовить профиль для NeoForge
-
-Выполнить:
+Подготовить файл профиля:
 
 ```powershell
 '{"profiles":{},"settings":{}}' |
-    Set-Content "C:\Minecraft\Ascension-of-Ages\launcher_profiles.json"
+  Set-Content `
+    "C:\Minecraft\Ascension-of-Ages\launcher_profiles.json" `
+    -Encoding ASCII
 ```
 
-Затем:
+Установить NeoForge:
 
 ```powershell
 java -jar "$env:TEMP\neoforge-21.1.247-installer.jar" `
   --install-client "C:\Minecraft\Ascension-of-Ages"
 ```
+
+Установка может занять некоторое время.
 
 В конце должно появиться:
 
@@ -149,104 +174,144 @@ java -jar "$env:TEMP\neoforge-21.1.247-installer.jar" `
 Successfully installed client into launcher.
 ```
 
-## 5. Настроить TLauncher
+---
 
-Открыть настройки TLauncher.
+# 4. Настроить TLauncher
 
-Указать папку игры:
+Открой настройки TLauncher.
+
+В качестве папки игры укажи:
 
 ```text
 C:\Minecraft\Ascension-of-Ages
 ```
 
-Перезапустить TLauncher.
+После изменения папки **полностью перезапусти TLauncher**.
 
-В списке версий выбрать:
+В списке версий выбери:
 
 ```text
 neoforge-21.1.247
 ```
 
-Выделить игре около:
+Выдели игре:
 
 ```text
 10240 MB RAM
 ```
 
-Галочка:
+Убедись, что:
 
 ```text
 Обновить клиент
 ```
 
-должна быть **ВЫКЛЮЧЕНА**.
+**ВЫКЛЮЧЕНО.**
 
-После этого запустить Minecraft.
+После этого запускай игру.
 
-Первый запуск может занимать несколько минут.
+> Первый запуск очень долгий. Экран **Ascension Awaits** может несколько минут выглядеть зависшим. Не закрывай игру сразу — сборка содержит 575 модов.
 
-## 6. Проверка сборки
+Если Windows спросит разрешение для **Java / OpenJDK / Minecraft** в брандмауэре — разреши доступ как минимум для **частных сетей**.
 
-В папке:
+---
 
-```text
-C:\Minecraft\Ascension-of-Ages\mods
-```
+# 5. Игра через Radmin VPN
 
-должно быть **575 `.jar` файлов**.
+Все игроки должны подключиться к одной сети в Radmin VPN.
 
-Можно проверить:
-
-```powershell
-(Get-ChildItem "C:\Minecraft\Ascension-of-Ages\mods\*.jar" -File).Count
-```
-
-Ожидаемый результат:
-
-```text
-575
-```
-
-## 7. Игра через Radmin VPN
-
-Все подключаются к одной сети Radmin VPN.
-
-Хост создаёт мир и выбирает:
+Хост заходит в мир и выбирает:
 
 **Esc → Открыть для сети**
 
-Minecraft покажет порт, например:
+Minecraft покажет сообщение примерно такого вида:
 
 ```text
 Local game hosted on port 52341
 ```
 
-Остальные открывают:
+Порт при следующем запуске мира может быть другим.
+
+Посмотри свой IP в Radmin VPN. Он выглядит примерно так:
+
+```text
+26.x.x.x
+```
+
+Другие игроки открывают:
 
 **Сетевая игра → Прямое подключение**
 
-и вводят Radmin-IP хоста вместе с портом:
+и вводят:
 
 ```text
 26.x.x.x:52341
 ```
 
-## Если что-то не работает
+где:
 
-Сначала прислать вывод:
+```text
+26.x.x.x
+```
+
+— Radmin-IP хоста, а:
+
+```text
+52341
+```
+
+— порт, который Minecraft показал после открытия мира для сети.
+
+---
+
+# Если не работает
+
+Проверить Java:
 
 ```powershell
 java -version
 ```
 
+Нужна:
+
+```text
+Java 21
+```
+
+Проверить моды:
+
 ```powershell
 (Get-ChildItem "C:\Minecraft\Ascension-of-Ages\mods\*.jar" -File).Count
 ```
 
-и скрин выбранной версии в TLauncher.
+Должно быть:
 
-Правильная версия:
+```text
+575
+```
+
+Проверить NeoForge:
+
+В TLauncher должна быть выбрана версия:
 
 ```text
 neoforge-21.1.247
+```
+
+Проверить соединение с хостом через Radmin VPN:
+
+```powershell
+ping 26.x.x.x
+```
+
+Если игра вылетает — прислать:
+
+```text
+C:\Minecraft\Ascension-of-Ages\logs\latest.log
+```
+
+Если появился crash-report — также прислать последний файл из:
+
+```text
+C:\Minecraft\Ascension-of-Ages\crash-reports
 ```
