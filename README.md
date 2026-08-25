@@ -216,6 +216,94 @@ neoforge-21.1.247
 
 ---
 
+# 🇷🇺 Русская локализация — временно
+
+> **Примечание:** русская локализация пока находится в финальной доработке, но основные книги и квесты уже переведены и ей можно пользоваться.
+>
+> После завершения проверки этот раздел будет обновлён.
+
+Чтобы не пересобирать и заново не скачивать весь архив `Ascension-of-Ages-0.7.3.1.7z` из-за нескольких файлов локализации, русский перевод пока устанавливается отдельно из GitHub.
+
+Репозиторий сборки для друзей:
+
+```text
+https://github.com/danilash/ascension-of-ages-friends
+```
+
+Актуальная локализация:
+
+```text
+https://github.com/danilash/ascension-of-ages-public/tree/russian-localization
+```
+
+## Установить локализацию
+
+Полностью закрой Minecraft.
+
+Открой PowerShell и выполни:
+
+```powershell
+$game = "C:\Minecraft\Ascension-of-Ages"
+
+New-Item -ItemType Directory -Force `
+  "$game\kubejs\assets\kubejs\lang" | Out-Null
+
+New-Item -ItemType Directory -Force `
+  "$game\kubejs\assets\aoa\lang" | Out-Null
+
+New-Item -ItemType Directory -Force `
+  "$game\config\ftbquests\quests\lang" | Out-Null
+
+Invoke-WebRequest `
+  -Uri "https://raw.githubusercontent.com/danilash/ascension-of-ages-public/russian-localization/kubejs/assets/kubejs/lang/ru_ru.json" `
+  -OutFile "$game\kubejs\assets\kubejs\lang\ru_ru.json"
+
+Invoke-WebRequest `
+  -Uri "https://raw.githubusercontent.com/danilash/ascension-of-ages-public/russian-localization/kubejs/assets/aoa/lang/ru_ru.json" `
+  -OutFile "$game\kubejs\assets\aoa\lang\ru_ru.json"
+
+Invoke-WebRequest `
+  -Uri "https://raw.githubusercontent.com/danilash/ascension-of-ages-public/russian-localization/config/ftbquests/quests/lang/ru_ru.snbt" `
+  -OutFile "$game\config\ftbquests\quests\lang\ru_ru.snbt"
+```
+
+Команды сразу скачают актуальные файлы локализации в установленную сборку.
+
+## Проверить установку
+
+В PowerShell:
+
+```powershell
+Get-Item `
+  "C:\Minecraft\Ascension-of-Ages\kubejs\assets\kubejs\lang\ru_ru.json", `
+  "C:\Minecraft\Ascension-of-Ages\kubejs\assets\aoa\lang\ru_ru.json", `
+  "C:\Minecraft\Ascension-of-Ages\config\ftbquests\quests\lang\ru_ru.snbt"
+```
+
+Должны отобразиться все три файла.
+
+После этого запусти Minecraft и выбери:
+
+**Настройки → Язык → Русский**
+
+Рекомендуется после смены языка один раз полностью перезапустить игру.
+
+Русская локализация сейчас включает:
+
+* стартовую книгу;
+* книги всех эпох;
+* FTB Quests.
+
+Некоторые названия модов, машин, предметов и боссов специально оставлены на английском, чтобы их можно было без проблем найти в EMI.
+
+## Обновить локализацию
+
+Если вышло обновление перевода, Minecraft нужно закрыть и просто **повторно выполнить блок команд из пункта «Установить локализацию»**.
+
+Старые файлы будут заменены актуальными версиями из ветки `russian-localization`.
+
+---
+
 # 5. Игра через Radmin VPN
 
 Все игроки должны подключиться к одной сети в Radmin VPN.
